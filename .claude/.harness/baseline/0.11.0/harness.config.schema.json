@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "vendor_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-(alpha|beta|rc)\\.\\d+)?$"
+    },
+    "target": {
+      "type": "string",
+      "enum": [
+        "claude-code"
+      ]
+    },
+    "task_storage": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "github"
+          ]
+        },
+        "repo": {
+          "type": "string",
+          "pattern": "^[^\\s/]+\\/[^\\s/]+$"
+        }
+      },
+      "required": [
+        "type",
+        "repo"
+      ],
+      "additionalProperties": false
+    },
+    "paths": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "playbooks": {
+          "default": "docs/playbooks",
+          "deprecated": true,
+          "description": "Deprecated: read only by the old playbook hooks, removed in 0.12.0. Move the playbooks with `/import <dir>/` in a Claude Code session, then delete this key.",
+          "type": "string"
+        },
+        "playbooks_global": {
+          "default": "~/.claude/playbooks",
+          "deprecated": true,
+          "description": "Deprecated: the global playbook layer goes away in 0.12.0 and nothing replaces it. Bring what a project needs with `/import`, then delete this key.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "rollback": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "keep_snapshots": {
+          "default": 3,
+          "anyOf": [
+            {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "string",
+              "const": "unlimited"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "telemetry": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "default": true,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "design_tokens": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "scan_extensions": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "scan_exclude": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verify": {
+          "type": "string",
+          "minLength": 1
+        },
+        "file": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "merge": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "checks_timeout_secs": {
+          "default": 600,
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "allow_no_checks": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "implementation": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "auto_commit": {
+          "default": "human",
+          "type": "string",
+          "enum": [
+            "human",
+            "on",
+            "off"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "vendor_version",
+    "target",
+    "task_storage"
+  ],
+  "additionalProperties": false
+}

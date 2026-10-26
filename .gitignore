@@ -1,0 +1,14 @@
+node_modules
+# BEGIN lemony
+.claude/state/current-*.md
+.claude/state/.ptr.*
+.claude/state/sessions/
+.claude/state/events.jsonl
+.claude/state/telemetry-cursor.json
+.claude/state/telemetry-consent.json
+.claude/state/.telemetry-notice-shown
+.claude/state/telemetry-rejected.jsonl
+.lemony/
+.claude/state/tmp/
+.claude/.harness/snapshots/
+# END lemony
